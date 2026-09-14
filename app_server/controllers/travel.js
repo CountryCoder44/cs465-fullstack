@@ -1,28 +1,12 @@
+/* Trip data now lives in app_server/data/trips.json instead of an inline array. */
+const trips = require('../data/trips.json');
+
 /* GET travel page. Builds the view model and renders the travel template. */
 const travel = (req, res) => {
     res.render('travel', {
         title: 'Travlr Getaways - Travel',
         travelSelected: true,
-        trips: [
-            {
-                name: 'Gale Reef',
-                image: '/images/reef1.jpg',
-                text1: 'Sed et augue lorem. In sit amet placerat arcu. Mauris volutpat ipsum ac justo mollis vel vestibulum orci gravida. Vestibulum sit amet porttitor odio. Nulla facilisi. Fusce at pretium felis.',
-                text2: 'Sed consequat libero ut turpis venenatis ut aliquam risus semper. Etiam convallis mi vel risus pretium sodales. Etiam nunc lorem ullamcorper vitae laoreet.'
-            },
-            {
-                name: "Dawson's Reef",
-                image: '/images/reef2.jpg',
-                text1: 'Integer magna leo, posuere et dignissim vitae, porttitor at odio. Pellentesque a metus nec magna placerat volutpat. Nunc nisi mi, elementum sit amet aliquet quis, tristique quis nisl. Curabitur odio lacus, blandit ut hendrerit',
-                text2: 'vulputate, vulputate at est. Morbi aliquet viverra metus eu consectetur. In lorem dui, elementum sit amet convallis ac, tincidunt vel sapien.'
-            },
-            {
-                name: "Claire's Reef",
-                image: '/images/reef3.jpg',
-                text1: 'Donec sed felis risus. Nulla facilisi. Donec a orci tellus, et auctor odio. Fusce ac orci nibh, quis semper arcu. Cras orci neque, euismod et accumsan ac, sagittis molestie lorem. Proin odio sapien, elementum at tempor non.',
-                text2: 'Vulputate eget libero. In hac habitasse platea dictumst. Integer purus justo, egestas eu consectetur eu, cursus in tortor. Quisque nec nunc ac mi ultrices iaculis.'
-            }
-        ]
+        trips
     });
 };
 
