@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
-require('./app_server/models/db');
+require('./app_api/models/db');
 
-const Trip = require('./app_server/models/travlr');
+const Trip = require('./app_api/models/travlr');
 const trips = require('./app_server/data/trips.json');
 
 mongoose.connection.once('connected', async () => {

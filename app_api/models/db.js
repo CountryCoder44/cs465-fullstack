@@ -18,8 +18,9 @@ mongoose.connection.on('disconnected', () => {
 
 // Close the connection cleanly, then hand control back to the caller so it
 // can finish shutting the process down (or, for nodemon, restart it).
+// Mongoose 7+ dropped callback support on close(), so chain off the promise.
 const gracefulShutdown = (msg, callback) => {
-    mongoose.connection.close(() => {
+    mongoose.connection.close().then(() => {
         console.log(`Mongoose disconnected through ${msg}`);
         callback();
     });

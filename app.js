@@ -7,7 +7,7 @@ var hbs = require('hbs');
 
 // Windows' terminal doesn't emit a POSIX SIGINT on Ctrl-C, so readline is
 // used to detect it and re-emit SIGINT for the graceful shutdown handling
-// registered in app_server/models/db.js to pick up.
+// registered in app_api/models/db.js to pick up.
 if (process.platform === 'win32') {
   var rl = require('readline').createInterface({
     input: process.stdin,
@@ -18,9 +18,11 @@ if (process.platform === 'win32') {
   });
 }
 
-require('./app_server/models/db');
+// Bring in the database (lives with the API now - separation of concerns)
+require('./app_api/models/db');
 
 var indexRouter = require('./app_server/routes/index');
+var apiRouter = require('./app_api/routes/index');
 
 var app = express();
 
@@ -40,6 +42,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public'), { index: false }));
 
 app.use('/', indexRouter);
+// RESTful API endpoints (JSON) are served from the separate app_api application
+app.use('/api', apiRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

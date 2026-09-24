@@ -3,17 +3,18 @@
 		<div>
 			<div class="body">
 				<h1>Travel</h1>
+				{{#if message}}
+				<p>{{message}}</p>
+				{{/if}}
 				<ul id="sites">
 					{{#each trips}}
 					<li>
 						<a href="/travel"><img src="{{this.image}}" alt="{{this.name}}"></a>
 						<h2><a href="/travel">{{this.name}}</a></h2>
 						<p>
-							{{this.text1}}
+							{{this.length}} &middot; {{this.resort}} &middot; ${{this.perPerson}} per person
 						</p>
-						<p>
-							{{this.text2}}
-						</p>
+						{{{this.description}}}
 					</li>
 					{{/each}}
 				</ul>
