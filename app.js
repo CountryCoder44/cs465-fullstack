@@ -5,6 +5,21 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var hbs = require('hbs');
 
+// Windows' terminal doesn't emit a POSIX SIGINT on Ctrl-C, so readline is
+// used to detect it and re-emit SIGINT for the graceful shutdown handling
+// registered in app_server/models/db.js to pick up.
+if (process.platform === 'win32') {
+  var rl = require('readline').createInterface({
+    input: process.stdin,
+    output: process.stdout
+  });
+  rl.on('SIGINT', () => {
+    process.emit('SIGINT');
+  });
+}
+
+require('./app_server/models/db');
+
 var indexRouter = require('./app_server/routes/index');
 
 var app = express();
