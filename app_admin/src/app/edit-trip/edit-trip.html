@@ -1,0 +1,54 @@
+<h2 class="mb-2">Edit Trip</h2>
+<p class="text-muted">{{ message() }}</p>
+
+<form [formGroup]="editForm" (ngSubmit)="onSubmit()" class="col-lg-8 mb-5">
+  <div class="mb-3">
+    <label class="form-label" for="code">Code</label>
+    <input id="code" type="text" formControlName="code" class="form-control"
+           placeholder="e.g. TEST261006" [class.is-invalid]="submitted() && f.code.errors" />
+    <div class="invalid-feedback">Trip code is required</div>
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="name">Name</label>
+    <input id="name" type="text" formControlName="name" class="form-control"
+           [class.is-invalid]="submitted() && f.name.errors" />
+    <div class="invalid-feedback">Name is required</div>
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="length">Length</label>
+    <input id="length" type="text" formControlName="length" class="form-control"
+           placeholder="e.g. 4 nights / 5 days" [class.is-invalid]="submitted() && f.length.errors" />
+    <div class="invalid-feedback">Length is required</div>
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="start">Start</label>
+    <input id="start" type="date" formControlName="start" class="form-control"
+           [class.is-invalid]="submitted() && f.start.errors" />
+    <div class="invalid-feedback">Start date is required</div>
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="resort">Resort</label>
+    <input id="resort" type="text" formControlName="resort" class="form-control"
+           [class.is-invalid]="submitted() && f.resort.errors" />
+    <div class="invalid-feedback">Resort is required</div>
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="perPerson">Per Person</label>
+    <input id="perPerson" type="text" formControlName="perPerson" class="form-control"
+           placeholder="e.g. 999.00" [class.is-invalid]="submitted() && f.perPerson.errors" />
+    <div class="invalid-feedback">Price per person is required</div>
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="image">Image</label>
+    <input id="image" type="text" formControlName="image" class="form-control"
+           placeholder="e.g. /images/reef1.jpg" [class.is-invalid]="submitted() && f.image.errors" />
+    <div class="invalid-feedback">Image is required</div>
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="description">Description</label>
+    <textarea id="description" rows="4" formControlName="description" class="form-control"
+              [class.is-invalid]="submitted() && f.description.errors"></textarea>
+    <div class="invalid-feedback">Description is required</div>
+  </div>
+  <button type="submit" class="btn btn-info">Update</button>
+</form>

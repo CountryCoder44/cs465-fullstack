@@ -41,6 +41,19 @@ app.use(cookieParser());
 // index: false so the '/' route below renders the templated home page instead of public/index.html
 app.use(express.static(path.join(__dirname, 'public'), { index: false }));
 
+// Enable CORS so the Angular admin SPA (served by `ng serve` on port 4200)
+// is allowed to call the API on port 3000
+app.use('/api', (req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'http://localhost:4200');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  // Answer the browser's preflight request without hitting the routes
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(200);
+  }
+  next();
+});
+
 app.use('/', indexRouter);
 // RESTful API endpoints (JSON) are served from the separate app_api application
 app.use('/api', apiRouter);
