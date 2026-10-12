@@ -1,0 +1,30 @@
+<nav class="navbar navbar-expand navbar-dark bg-dark mb-4">
+  <div class="container">
+    <a class="navbar-brand" routerLink="/">{{ title }}</a>
+    <ul class="navbar-nav me-auto">
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/" routerLinkActive="active"
+           [routerLinkActiveOptions]="{ exact: true }">Trips</a>
+      </li>
+      @if (isLoggedIn()) {
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/add-trip" routerLinkActive="active">Add Trip</a>
+        </li>
+      }
+    </ul>
+    <ul class="navbar-nav">
+      @if (isLoggedIn()) {
+        <li class="nav-item">
+          <span class="navbar-text me-3">{{ currentUserName() }}</span>
+        </li>
+        <li class="nav-item">
+          <button type="button" class="btn btn-outline-light btn-sm mt-1" (click)="onLogout()">Log Out</button>
+        </li>
+      } @else {
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/login" routerLinkActive="active">Log In</a>
+        </li>
+      }
+    </ul>
+  </div>
+</nav>

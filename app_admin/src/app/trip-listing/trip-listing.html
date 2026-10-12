@@ -1,6 +1,8 @@
 <div class="d-flex justify-content-between align-items-center mb-3">
   <h2 class="mb-0">Trips</h2>
-  <button class="btn btn-info" (click)="addTrip()">Add Trip</button>
+  @if (isLoggedIn()) {
+    <button class="btn btn-info" (click)="addTrip()">Add Trip</button>
+  }
 </div>
 
 <p class="text-muted">{{ message() }}</p>

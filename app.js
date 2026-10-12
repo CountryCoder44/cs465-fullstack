@@ -1,9 +1,13 @@
+// Load secrets (JWT_SECRET) from the .env file into process.env
+require('dotenv').config();
+
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var hbs = require('hbs');
+var passport = require('passport');
 
 // Windows' terminal doesn't emit a POSIX SIGINT on Ctrl-C, so readline is
 // used to detect it and re-emit SIGINT for the graceful shutdown handling
@@ -20,6 +24,8 @@ if (process.platform === 'win32') {
 
 // Bring in the database (lives with the API now - separation of concerns)
 require('./app_api/models/db');
+// Register the passport local strategy (needs the User model from db.js)
+require('./app_api/config/passport');
 
 var indexRouter = require('./app_server/routes/index');
 var apiRouter = require('./app_api/routes/index');
@@ -40,6 +46,7 @@ app.use(cookieParser());
 // serve the static mockup assets (css, images, not-yet-converted .html pages);
 // index: false so the '/' route below renders the templated home page instead of public/index.html
 app.use(express.static(path.join(__dirname, 'public'), { index: false }));
+app.use(passport.initialize());
 
 // Enable CORS so the Angular admin SPA (served by `ng serve` on port 4200)
 // is allowed to call the API on port 3000
@@ -61,6 +68,16 @@ app.use('/api', apiRouter);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
+});
+
+// Catch unauthorized error and create 401
+app.use((err, req, res, next) => {
+  if (err.name === 'UnauthorizedError') {
+    return res
+      .status(401)
+      .json({ message: err.name + ': ' + err.message });
+  }
+  next(err);
 });
 
 // error handler

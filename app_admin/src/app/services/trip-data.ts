@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { Trip } from '../models/trip';
+import { User } from '../models/user';
+import { AuthResponse } from '../models/auth-response';
 import { environment } from '../../environments/environment';
 
 // Data service - the only place in the SPA that talks to the Express REST API.
@@ -38,5 +40,25 @@ export class TripData {
   // DELETE: /api/trips/:tripCode - remove a trip
   deleteTrip(tripCode: string): Observable<Trip> {
     return this.http.delete<Trip>(`${this.url}/${tripCode}`);
+  }
+
+  // POST: /api/login - exchange credentials for a JWT
+  login(user: User, passwd: string): Observable<AuthResponse> {
+    return this.handleAuthAPICall('login', user, passwd);
+  }
+
+  // POST: /api/register - create a user and receive a JWT
+  register(user: User, passwd: string): Observable<AuthResponse> {
+    return this.handleAuthAPICall('register', user, passwd);
+  }
+
+  // Both auth endpoints take the same body, so share the call
+  private handleAuthAPICall(endpoint: string, user: User, passwd: string): Observable<AuthResponse> {
+    const formData = {
+      name: user.name,
+      email: user.email,
+      password: passwd
+    };
+    return this.http.post<AuthResponse>(`${environment.apiBaseUrl}/${endpoint}`, formData);
   }
 }

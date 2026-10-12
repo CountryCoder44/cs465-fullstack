@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 
 import { TripCard } from '../trip-card/trip-card';
 import { TripData } from '../services/trip-data';
+import { Authentication } from '../services/authentication';
 import { Trip } from '../models/trip';
 
 @Component({
@@ -14,6 +15,7 @@ import { Trip } from '../models/trip';
 export class TripListing implements OnInit {
   private tripData = inject(TripData);
   private router = inject(Router);
+  private authentication = inject(Authentication);
 
   trips = signal<Trip[]>([]);
   message = signal('');
@@ -41,6 +43,11 @@ export class TripListing implements OnInit {
         console.log('Error: ' + error.message);
       }
     });
+  }
+
+  // Only a logged-in admin sees the Add Trip button
+  public isLoggedIn(): boolean {
+    return this.authentication.isLoggedIn();
   }
 
   public addTrip(): void {

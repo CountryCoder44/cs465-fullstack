@@ -14,8 +14,10 @@
     <p class="card-text fw-semibold">{{ +trip().perPerson | currency }} per person</p>
     <div class="card-text small" [innerHTML]="trip().description"></div>
   </div>
-  <div class="card-footer d-flex gap-2">
-    <button class="btn btn-info" (click)="editTrip(trip())">Edit Trip</button>
-    <button class="btn btn-outline-danger" (click)="deleteTrip(trip())">Delete</button>
-  </div>
+  @if (isLoggedIn()) {
+    <div class="card-footer d-flex gap-2">
+      <button class="btn btn-info" (click)="editTrip(trip())">Edit Trip</button>
+      <button class="btn btn-outline-danger" (click)="deleteTrip(trip())">Delete</button>
+    </div>
+  }
 </div>

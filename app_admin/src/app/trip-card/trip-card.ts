@@ -3,6 +3,7 @@ import { CurrencyPipe, DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
 
 import { TripData } from '../services/trip-data';
+import { Authentication } from '../services/authentication';
 import { Trip } from '../models/trip';
 
 // Reusable presentation component for a single trip
@@ -15,14 +16,20 @@ import { Trip } from '../models/trip';
 export class TripCard {
   private router = inject(Router);
   private tripData = inject(TripData);
+  private authentication = inject(Authentication);
 
-  trip = input.required<Trip>();
+  trip =input.required<Trip>();
   deleted = output<void>();
 
   // Seeded trips store "/images/reef1.jpg"; allow a bare filename too
   get imageUrl(): string {
     const image = this.trip().image;
     return image.startsWith('/') || image.startsWith('http') ? image : `images/${image}`;
+  }
+
+  // Edit/Delete only show for a logged-in admin
+  public isLoggedIn(): boolean {
+    return this.authentication.isLoggedIn();
   }
 
   public editTrip(trip: Trip): void {
